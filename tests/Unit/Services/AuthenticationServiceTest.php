@@ -9,6 +9,7 @@ use Blacktrue\CsfSatScraper\Exceptions\InvalidCredentialsException;
 use Blacktrue\CsfSatScraper\Exceptions\LoginPageNotLoadedException;
 use Blacktrue\CsfSatScraper\Exceptions\NetworkException;
 use Blacktrue\CsfSatScraper\Services\AuthenticationService;
+use Blacktrue\CsfSatScraper\URL;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\ConnectException;
 use Psr\Http\Message\ResponseInterface;
@@ -226,5 +227,54 @@ class AuthenticationServiceTest extends TestCase
         $this->expectExceptionMessage('Invalid credentials');
 
         $service->checkLogin();
+    }
+
+    public function testLogoutSuccess(): void
+    {
+        $this->mockClient
+            ->expects($this->exactly(3))
+            ->method('request')
+            ->willReturnCallback(function ($method, $url) {
+                $this->assertEquals('GET', $method);
+                static $callCount = 0;
+                $callCount++;
+
+                $expectedUrls = [
+                    URL::$logoutSatellite,
+                    URL::$closeSession,
+                    URL::$logout
+                ];
+
+                $this->assertEquals($expectedUrls[$callCount - 1], $url);
+
+                return $this->createMock(ResponseInterface::class);
+            });
+
+        $service = new AuthenticationService($this->mockClient, $this->validRfc, $this->validPassword);
+        $service->logout();
+
+        $this->assertTrue(true);
+    }
+
+    public function testLogoutThrowsNetworkExceptionOnFailure(): void
+    {
+        $mockRequest = $this->createMock(RequestInterface::class);
+        $connectException = new ConnectException(
+            'Connection failed',
+            $mockRequest
+        );
+
+        $this->mockClient
+            ->expects($this->once())
+            ->method('request')
+            ->with('GET', $this->anything())
+            ->willThrowException($connectException);
+
+        $service = new AuthenticationService($this->mockClient, $this->validRfc, $this->validPassword);
+
+        $this->expectException(NetworkException::class);
+        $this->expectExceptionMessage('Failed to logout');
+
+        $service->logout();
     }
 }

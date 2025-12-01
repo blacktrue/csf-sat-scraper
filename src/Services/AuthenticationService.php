@@ -9,6 +9,7 @@ use Blacktrue\CsfSatScraper\Exceptions\InvalidCredentialsException;
 use Blacktrue\CsfSatScraper\Exceptions\LoginException;
 use Blacktrue\CsfSatScraper\Exceptions\LoginPageNotLoadedException;
 use Blacktrue\CsfSatScraper\Exceptions\NetworkException;
+use Blacktrue\CsfSatScraper\URL;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\RequestOptions;
@@ -123,6 +124,17 @@ readonly class AuthenticationService
             }
         } catch (GuzzleException $e) {
             throw new NetworkException('Failed to check login', 0, $e);
+        }
+    }
+
+    public function logout(): void
+    {
+        try {
+            $this->client->request('GET', URL::$logoutSatellite);
+            $this->client->request('GET', URL::$closeSession);
+            $this->client->request('GET', URL::$logout);
+        } catch (GuzzleException $e) {
+            throw new NetworkException('Failed to logout', 0, $e);
         }
     }
 }

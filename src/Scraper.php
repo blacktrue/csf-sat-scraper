@@ -44,7 +44,10 @@ readonly class Scraper
         $this->authService->checkLogin();
 
         $html = $this->ssoHandler->handleSSOWorkflow();
+        $document = $this->documentService->downloadDocument($html);
 
-        return $this->documentService->downloadDocument($html);
+        $this->authService->logout();
+
+        return $document;
     }
 }
