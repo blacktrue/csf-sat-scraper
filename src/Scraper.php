@@ -19,10 +19,10 @@ readonly class Scraper
     private DocumentService $documentService;
 
     public function __construct(
-        private ClientInterface  $client,
+        private ClientInterface $client,
         CaptchaResolverInterface $captchaSolver,
-        string                   $rfc,
-        string                   $password,
+        string $rfc,
+        string $password,
     ) {
         $this->authService = new AuthenticationService($client, $rfc, $password);
         $this->captchaService = new CaptchaService($captchaSolver);

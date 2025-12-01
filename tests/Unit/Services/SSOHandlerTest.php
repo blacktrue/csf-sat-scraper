@@ -261,7 +261,8 @@ HTML;
 <body>
     <form method="post" action="https://wwwmat.sat.gob.mx/Shibboleth.sso/SAML2/POST">
         <input type="hidden" name="RelayState" value="ss:mem:f1e2d3c4b5a6978" />
-        <input type="hidden" name="SAMLResponse" value="PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHNhbWxwOlJlc3BvbnNlIHhtbG5zOnNhbWxwPSJ1cm46b2FzaXM6bmFtZXM6dGM6U0FNTDoyLjA6cHJvdG9jb2wiIElEPSJfOGFlNWFkZiIgVmVyc2lvbj0iMi4wIiBJc3N1ZUluc3RhbnQ9IjIwMjUtMTEtMzBUMTI6MzQ6NTZaIj4KICA8c2FtbDpJc3N1ZXI+aHR0cHM6Ly9sb2dpbi5zaWF0LnNhdC5nb2IubXg8L3NhbWw6SXNzdWVyPgogIDxzYW1scDpTdGF0dXM+CiAgICA8c2FtbHA6U3RhdHVzQ29kZSBWYWx1ZT0idXJuOm9hc2lzOm5hbWVzOnRjOlNBTUw6Mi4wOnN0YXR1czpTdWNjZXNzIi8+CiAgPC9zYW1scDpTdGF0dXM+CiAgPHNhbWw6QXNzZXJ0aW9uPgogICAgPHNhbWw6U3ViamVjdD4KICAgICAgPHNhbWw6TmFtZUlEPnVzZXJAc2F0LmdvYi5teDwvc2FtbDpOYW1lSUQ+CiAgICA8L3NhbWw6U3ViamVjdD4KICA8L3NhbWw6QXNzZXJ0aW9uPgo8L3NhbWxwOlJlc3BvbnNlPg==" />
+        <input type="hidden" name="SAMLResponse"
+               value="PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHNhbWxwOlJlc3BvbnNlIHhtbG5zOnNhbWxwPSJ1cm46b2FzaXM6bmFtZXM6dGM6U0FNTDoyLjA6cHJvdG9jb2wiIElEPSJfOGFlNWFkZiIgVmVyc2lvbj0iMi4wIiBJc3N1ZUluc3RhbnQ9IjIwMjUtMTEtMzBUMTI6MzQ6NTZaIj4KICA8c2FtbDpJc3N1ZXI+aHR0cHM6Ly9sb2dpbi5zaWF0LnNhdC5nb2IubXg8L3NhbWw6SXNzdWVyPgogIDxzYW1scDpTdGF0dXM+CiAgICA8c2FtbHA6U3RhdHVzQ29kZSBWYWx1ZT0idXJuOm9hc2lzOm5hbWVzOnRjOlNBTUw6Mi4wOnN0YXR1czpTdWNjZXNzIi8+CiAgPC9zYW1scDpTdGF0dXM+CiAgPHNhbWw6QXNzZXJ0aW9uPgogICAgPHNhbWw6U3ViamVjdD4KICAgICAgPHNhbWw6TmFtZUlEPnVzZXJAc2F0LmdvYi5teDwvc2FtbDpOYW1lSUQ+CiAgICA8L3NhbWw6U3ViamVjdD4KICA8L3NhbWw6QXNzZXJ0aW9uPgo8L3NhbWxwOlJlc3BvbnNlPg==" />
     </form>
 </body>
 </html>
@@ -329,5 +330,3 @@ HTML;
         $this->assertStringContainsString('Success', $result);
     }
 }
-
-

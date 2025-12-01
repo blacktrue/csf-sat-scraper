@@ -150,4 +150,3 @@ class HttpClientFactoryTest extends TestCase
         $this->assertInstanceOf(CookieJar::class, $options[RequestOptions::COOKIES]);
     }
 }
-

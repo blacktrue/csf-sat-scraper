@@ -17,8 +17,8 @@ readonly class AuthenticationService
 {
     public function __construct(
         private ClientInterface $client,
-        private string          $rfc,
-        private string          $password
+        private string $rfc,
+        private string $password
     ) {
     }
 
@@ -57,7 +57,7 @@ readonly class AuthenticationService
             ]);
 
             $html = (string)$response->getBody();
-            if (!str_contains($html, 'divCaptcha')) {
+            if (! str_contains($html, 'divCaptcha')) {
                 $exception = new LoginPageNotLoadedException('Unable to retrieve login form with captcha');
                 $exception->setHtml($html);
                 throw $exception;
@@ -118,7 +118,7 @@ readonly class AuthenticationService
                 throw new InvalidCaptchaException('Invalid captcha');
             }
 
-            if (!str_contains($html, $this->rfc)) {
+            if (! str_contains($html, $this->rfc)) {
                 throw new InvalidCredentialsException('Invalid credentials');
             }
         } catch (GuzzleException $e) {
@@ -126,5 +126,3 @@ readonly class AuthenticationService
         }
     }
 }
-
-

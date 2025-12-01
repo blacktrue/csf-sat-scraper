@@ -46,4 +46,3 @@ readonly class DocumentService
         return $this->getFileContent();
     }
 }
-

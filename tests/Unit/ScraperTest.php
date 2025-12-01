@@ -26,4 +26,3 @@ class ScraperTest extends TestCase
         $this->assertSame($mockClient, $scraper->getClient());
     }
 }
-

@@ -48,7 +48,7 @@ readonly class SSOHandler
 
         $htmlWithIframe = $this->handleSSOForms($html);
 
-        if (!preg_match('/<iframe[^>]+id="iframetoload"[^>]+src="([^"]+)"/i', $htmlWithIframe, $m)) {
+        if (! preg_match('/<iframe[^>]+id="iframetoload"[^>]+src="([^"]+)"/i', $htmlWithIframe, $m)) {
             throw new SATException('iframetoload not found in SSO workflow');
         }
 
@@ -61,4 +61,3 @@ readonly class SSOHandler
         return $this->handleSSOForms($html);
     }
 }
-

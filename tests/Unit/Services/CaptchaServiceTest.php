@@ -15,8 +15,10 @@ class CaptchaServiceTest extends TestCase
     {
         $expectedValue = 'ABC123';
 
-        $mockAnswer = new class($expectedValue) implements CaptchaAnswerInterface {
-            public function __construct(private string $value) {}
+        $mockAnswer = new class ($expectedValue) implements CaptchaAnswerInterface {
+            public function __construct(private string $value)
+            {
+            }
 
             public function getValue(): string
             {
@@ -59,4 +61,3 @@ class CaptchaServiceTest extends TestCase
         $this->assertSame($expectedValue, $result);
     }
 }
-

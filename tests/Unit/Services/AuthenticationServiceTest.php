@@ -228,4 +228,3 @@ class AuthenticationServiceTest extends TestCase
         $service->checkLogin();
     }
 }
-

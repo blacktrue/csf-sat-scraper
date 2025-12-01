@@ -88,4 +88,3 @@ class HttpClientFactory
         return true;
     }
 }
-

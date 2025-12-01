@@ -29,7 +29,8 @@
         "phpcfdi/image-captcha-resolver": "^0.3.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^10.0"
+        "phpunit/phpunit": "^10.0",
+        "squizlabs/php_codesniffer": "^4.0"
     },
     "config": {
         "allow-plugins": {
@@ -38,6 +39,23 @@
     },
     "scripts": {
         "test": "phpunit",
-        "test-coverage": "phpunit --coverage-html coverage"
+        "test-coverage": "phpunit --coverage-html coverage",
+        "dev:check-style": [
+            "@php vendor/bin/phpcs --colors -sp"
+        ],
+        "dev:fix-style": [
+            "@php vendor/bin/phpcbf --colors -sp"
+        ],
+        "dev:build": [
+            "@dev:fix-style",
+            "@test"
+        ]
+    },
+    "scripts-descriptions": {
+        "test": "Run PHPUnit tests",
+        "test-coverage": "Run PHPUnit tests with code coverage",
+        "dev:check-style": "DEV: search for code style errors using phpcs",
+        "dev:fix-style": "DEV: fix code style errors using phpcbf",
+        "dev:build": "DEV: run dev:fix-style and test, run before pull request"
     }
 }

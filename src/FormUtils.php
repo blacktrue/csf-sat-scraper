@@ -11,7 +11,7 @@ class FormUtils
 {
     public static function extractForm(string $html): FormExtractionResult
     {
-        if (!preg_match('/<form[^>]+action="([^"]+)"[^>]*>/i', $html, $m)) {
+        if (! preg_match('/<form[^>]+action="([^"]+)"[^>]*>/i', $html, $m)) {
             throw new SATException('No encontré el form SAML en la respuesta');
         }
 
@@ -20,8 +20,10 @@ class FormUtils
         $fields = [];
         if (preg_match_all('/<input[^>]+type="hidden"[^>]*>/i', $html, $inputs)) {
             foreach ($inputs[0] as $inputHtml) {
-                if (preg_match('/name="([^"]+)"/i', $inputHtml, $n)
-                    && preg_match('/value="([^"]*)"/i', $inputHtml, $v)) {
+                if (
+                    preg_match('/name="([^"]+)"/i', $inputHtml, $n)
+                    && preg_match('/value="([^"]*)"/i', $inputHtml, $v)
+                ) {
                     $fields[$n[1]] = html_entity_decode($v[1]);
                 }
             }

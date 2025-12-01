@@ -7,6 +7,12 @@ composer.lock
 coverage/
 phpunit.xml.local
 
+# Build
+/build/
+
+# Tools
+/tools/
+
 # IDE
 .idea/
 .vscode/
