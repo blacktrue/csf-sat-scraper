@@ -11,7 +11,6 @@ use Blacktrue\CsfSatScraper\Exceptions\NetworkException;
 use Blacktrue\CsfSatScraper\Services\AuthenticationService;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\ConnectException;
-use GuzzleHttp\Exception\RequestException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\RequestInterface;
@@ -28,15 +27,15 @@ class AuthenticationServiceTest extends TestCase
         $this->mockClient = $this->createMock(ClientInterface::class);
     }
 
-    public function testInitializeLoginSuccess(): void
+    public function testInitializeAppSuccess(): void
     {
         $this->mockClient
             ->expects($this->once())
             ->method('request')
-            ->with('GET', '/nidp/app/login');
+            ->with('GET', '/nidp/app');
 
         $service = new AuthenticationService($this->mockClient, $this->validRfc, $this->validPassword);
-        $service->initializeLogin();
+        $service->initializeApp();
 
         $this->assertTrue(true);
     }
@@ -135,7 +134,7 @@ class AuthenticationServiceTest extends TestCase
         $this->expectException(NetworkException::class);
         $this->expectExceptionMessage('Failed to initialize login session');
 
-        $service->initializeLogin();
+        $service->initializeApp();
     }
 
     public function testGetLoginFormThrowsNetworkException(): void

@@ -22,10 +22,13 @@ readonly class AuthenticationService
     ) {
     }
 
-    public function initializeLogin(): void
+    public function initializeApp(): void
     {
         try {
-            $this->client->request('GET', '/nidp/app/login', [
+            $this->client->request('GET', '/nidp/app', [
+                'query' => [
+                    'sid' => 1,
+                ],
                 'headers' => [
                     RequestOptions::ALLOW_REDIRECTS => true,
                 ]

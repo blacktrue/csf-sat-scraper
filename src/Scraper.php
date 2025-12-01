@@ -37,7 +37,7 @@ readonly class Scraper
 
     public function download(): string
     {
-        $this->authService->initializeLogin();
+        $this->authService->initializeApp();
         $loginHtmlForm = $this->authService->getLoginForm();
         $captchaValue = $this->captchaService->resolveCaptchaFromHtml($loginHtmlForm);
         $this->authService->sendLoginForm($captchaValue);
