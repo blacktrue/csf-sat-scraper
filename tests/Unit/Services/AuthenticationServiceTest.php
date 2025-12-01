@@ -6,6 +6,7 @@ namespace Blacktrue\CsfSatScraper\Tests\Unit\Services;
 
 use Blacktrue\CsfSatScraper\Exceptions\InvalidCaptchaException;
 use Blacktrue\CsfSatScraper\Exceptions\InvalidCredentialsException;
+use Blacktrue\CsfSatScraper\Exceptions\LoginPageNotLoadedException;
 use Blacktrue\CsfSatScraper\Exceptions\NetworkException;
 use Blacktrue\CsfSatScraper\Services\AuthenticationService;
 use GuzzleHttp\ClientInterface;
@@ -58,6 +59,28 @@ class AuthenticationServiceTest extends TestCase
         $result = $service->getLoginForm();
 
         $this->assertSame($expectedHtml, $result);
+    }
+
+    public function testGetLoginFormThrowsLoginPageNotLoadedException(): void
+    {
+        $htmlWithoutCaptcha = '<html><body><form>No captcha here</form></body></html>';
+
+        $mockStream = $this->createMock(StreamInterface::class);
+        $mockStream->method('__toString')->willReturn($htmlWithoutCaptcha);
+
+        $mockResponse = $this->createMock(ResponseInterface::class);
+        $mockResponse->method('getBody')->willReturn($mockStream);
+
+        $this->mockClient
+            ->method('request')
+            ->willReturn($mockResponse);
+
+        $service = new AuthenticationService($this->mockClient, $this->validRfc, $this->validPassword);
+
+        $this->expectException(LoginPageNotLoadedException::class);
+        $this->expectExceptionMessage('Unable to retrieve login form with captcha');
+
+        $service->getLoginForm();
     }
 
     public function testSendLoginFormSuccess(): void

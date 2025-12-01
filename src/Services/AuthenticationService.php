@@ -6,6 +6,8 @@ namespace Blacktrue\CsfSatScraper\Services;
 
 use Blacktrue\CsfSatScraper\Exceptions\InvalidCaptchaException;
 use Blacktrue\CsfSatScraper\Exceptions\InvalidCredentialsException;
+use Blacktrue\CsfSatScraper\Exceptions\LoginException;
+use Blacktrue\CsfSatScraper\Exceptions\LoginPageNotLoadedException;
 use Blacktrue\CsfSatScraper\Exceptions\NetworkException;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\GuzzleException;
@@ -51,7 +53,12 @@ readonly class AuthenticationService
                 'body' => '',
             ]);
 
-            return (string)$response->getBody();
+            $html = (string)$response->getBody();
+            if (!str_contains($html, 'divCaptcha')) {
+                throw new LoginPageNotLoadedException('Unable to retrieve login form with captcha');
+            }
+
+            return $html;
         } catch (GuzzleException $e) {
             throw new NetworkException('Failed to get login form', 0, $e);
         }
