@@ -11,18 +11,26 @@ use PHPUnit\Framework\TestCase;
 
 class ScraperTest extends TestCase
 {
+    private ClientInterface $mockClient;
+    private CaptchaResolverInterface $mockCaptchaResolver;
+    private string $testRfc = 'XAXX010101000';
+    private string $testPassword = 'testPassword123';
+
+    protected function setUp(): void
+    {
+        $this->mockClient = $this->createMock(ClientInterface::class);
+        $this->mockCaptchaResolver = $this->createMock(CaptchaResolverInterface::class);
+    }
+
     public function testCanBeInstantiated(): void
     {
-        $mockClient = $this->createMock(ClientInterface::class);
-        $mockCaptchaResolver = $this->createMock(CaptchaResolverInterface::class);
-
         $scraper = new Scraper(
-            $mockClient,
-            $mockCaptchaResolver,
-            'TEST_RFC',
-            'TEST_PASSWORD'
+            $this->mockClient,
+            $this->mockCaptchaResolver,
+            $this->testRfc,
+            $this->testPassword
         );
 
-        $this->assertSame($mockClient, $scraper->getClient());
+        $this->assertSame($this->mockClient, $scraper->getClient());
     }
 }
