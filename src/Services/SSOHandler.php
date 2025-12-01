@@ -1,0 +1,64 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Blacktrue\CsfSatScraper\Services;
+
+use Blacktrue\CsfSatScraper\Exceptions\SATException;
+use Blacktrue\CsfSatScraper\FormUtils;
+use Blacktrue\CsfSatScraper\URL;
+use GuzzleHttp\ClientInterface;
+
+readonly class SSOHandler
+{
+    public function __construct(
+        private ClientInterface $client
+    ) {
+    }
+
+    public function handleSSOForms(string $html): string
+    {
+        $form = FormUtils::extractForm($html);
+
+        $samlResponse = $this->client->request('POST', $form->getAction(), [
+            'form_params' => $form->getFields(),
+        ]);
+
+        $html = (string)$samlResponse->getBody();
+
+        $form = FormUtils::extractForm($html);
+
+        $response = $this->client->request('POST', $form->getAction(), [
+            'form_params' => $form->getFields(),
+        ]);
+
+        return (string)$response->getBody();
+    }
+
+    public function handleSSOWorkflow(): string
+    {
+        $response = $this->client->request('GET', URL::$thrower, [
+            'allow_redirects' => true,
+            'headers' => [
+                'Host' => 'wwwmat.sat.gob.mx'
+            ]
+        ]);
+
+        $html = (string)$response->getBody();
+
+        $htmlWithIframe = $this->handleSSOForms($html);
+
+        if (!preg_match('/<iframe[^>]+id="iframetoload"[^>]+src="([^"]+)"/i', $htmlWithIframe, $m)) {
+            throw new SATException('iframetoload not found in SSO workflow');
+        }
+
+        $iframeUrl = html_entity_decode($m[1]);
+
+        $iframeResponse = $this->client->request('GET', $iframeUrl);
+
+        $html = (string)$iframeResponse->getBody();
+
+        return $this->handleSSOForms($html);
+    }
+}
+
