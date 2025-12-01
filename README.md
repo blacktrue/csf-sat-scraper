@@ -2,8 +2,6 @@
 
 Un scraper en PHP para descargar constancias de situación fiscal del SAT México.
 
-## 🚀 Inicio Rápido
-
 ### Instalación
 
 ```bash
