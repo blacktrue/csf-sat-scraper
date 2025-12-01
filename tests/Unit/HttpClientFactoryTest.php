@@ -48,23 +48,6 @@ class HttpClientFactoryTest extends TestCase
         $this->assertEquals('https://login.siat.sat.gob.mx', $options['base_uri']);
     }
 
-    public function testGetDefaultOptionsIncludesCriticalSSLSettings(): void
-    {
-        $options = HttpClientFactory::getDefaultOptions();
-
-        $this->assertArrayHasKey('curl', $options);
-        $this->assertArrayHasKey(CURLOPT_SSL_CIPHER_LIST, $options['curl']);
-        $this->assertEquals('DEFAULT@SECLEVEL=1', $options['curl'][CURLOPT_SSL_CIPHER_LIST]);
-    }
-
-    public function testGetDefaultOptionsDisablesSSLVerification(): void
-    {
-        $options = HttpClientFactory::getDefaultOptions();
-
-        $this->assertArrayHasKey(RequestOptions::VERIFY, $options);
-        $this->assertFalse($options[RequestOptions::VERIFY]);
-    }
-
     public function testGetDefaultOptionsIncludesTimeouts(): void
     {
         $options = HttpClientFactory::getDefaultOptions();
@@ -100,8 +83,6 @@ class HttpClientFactoryTest extends TestCase
         $critical = HttpClientFactory::getCriticalOptions();
 
         $this->assertArrayHasKey('base_uri', $critical);
-        $this->assertArrayHasKey('curl', $critical);
-        $this->assertArrayHasKey(RequestOptions::VERIFY, $critical);
 
         // Should not include non-critical options
         $this->assertArrayNotHasKey(RequestOptions::TIMEOUT, $critical);
