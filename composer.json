@@ -22,8 +22,8 @@
     "require": {
         "ext-curl": "*",
         "guzzlehttp/guzzle": "^7.0",
-        "symfony/dom-crawler": "^8.0",
-        "symfony/css-selector": "^8.0",
+        "symfony/dom-crawler": "^7.0 || ^8.0",
+        "symfony/css-selector": "^7.0 || ^8.0",
         "symfony/browser-kit": "^8.0",
         "symfony/http-client": "^8.0",
         "phpcfdi/image-captcha-resolver": "^0.3.0"
